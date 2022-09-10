@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/kimjust6/fragments/issues"
   },
-  "homepage": "https://github.com/kimjust6/fragments#readme"
+  "homepage": "https://github.com/kimjust6/fragments#readme",
+  "devDependencies": {
+    "prettier": "2.7.1"
+  }
 }
