@@ -18,6 +18,7 @@ describe('Testing Fragments', () => {
     expect(Fragment.Fragment.isSupportedType('text').toBe(true));
     expect(Fragment.Fragment.isSupportedType('text/plain').toBe(true));
     expect(Fragment.Fragment.isSupportedType('image/gif').toBe(true));
+    expect(Fragment.Fragment.isSupportedType('application/json').toBe(true));
     expect(Fragment.Fragment.isSupportedType('image/x-icon').toBe(false));
   });
 });
