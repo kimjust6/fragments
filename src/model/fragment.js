@@ -27,7 +27,7 @@ class Fragment {
       throw 'size is not a number.';
     } else if (size < 0) {
       throw 'size cannot be negative.';
-    } else if (!this.isSupportedType(type)) {
+    } else if (!Fragment.isSupportedType(type)) {
       throw 'type is not supported.';
     } else {
       this.id = id ? id : randomUUID.randomUUID();
@@ -125,7 +125,11 @@ class Fragment {
    * Returns the formats into which this fragment type can be converted
    * @returns {Array<string>} list of supported mime types
    */
-  static get formats() {
+  get formats() {
+    return this.getFormats;
+  }
+
+  static getFormats() {
     return ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'text'];
   }
 
@@ -137,7 +141,9 @@ class Fragment {
   static isSupportedType(_value) {
     _value = _value.toLowerCase();
     return (
-      this.isContentText(_value) || _value === 'application/json' || this.formats().includes(_value)
+      this.isContentText(_value) ||
+      _value === 'application/json' ||
+      this.getFormats().includes(_value)
     );
   }
 }
