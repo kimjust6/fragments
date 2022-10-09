@@ -1,17 +1,14 @@
 const Fragment = require('../../src/model/fragment');
 
 describe('Testing Fragments', () => {
-  //
-  test('testing isSupportedType', () => {
-    expect(Fragment.isSupportedType('text').toBe(true));
-    expect(Fragment.isSupportedType('text/plain').toBe(true));
-    expect(Fragment.isSupportedType('image/gif').toBe(true));
-    expect(Fragment.isSupportedType('image/x-icon').toBe(false));
-  });
+  let frag;
+  // Each test will get its own, new fragment
+  frag = new Fragment();
 
   test('testing isSupportedType', () => {
-    expect(Fragment.isSupportedType('text').toBe(true));
-    expect(Fragment.isSupportedType('text/plain').toBe(true));
-    expect(Fragment.isSupportedType('image/gif').toBe(true));
+    expect(frag.isSupportedType('text').toBe(true));
+    expect(frag.isSupportedType('text/plain').toBe(true));
+    expect(frag.isSupportedType('image/gif').toBe(true));
+    expect(frag.isSupportedType('image/x-icon').toBe(false));
   });
 });
