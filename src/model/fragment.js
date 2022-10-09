@@ -13,6 +13,7 @@ const {
   listFragments,
   deleteFragment,
 } = require('./data');
+const logger = require('../logger');
 
 class Fragment {
   constructor({ id, ownerId, type, size = 0 }) {
@@ -105,6 +106,8 @@ class Fragment {
     if (_data) {
       this.updated = new Date();
       this.size = _data.length;
+      logger.debug('saving data: ');
+      logger.debug(_data);
       return await writeFragmentData(this.ownerId, this.id, _data);
     } else {
       return Promise.reject(() => {
