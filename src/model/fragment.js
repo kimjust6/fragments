@@ -95,7 +95,7 @@ class Fragment {
    * @returns {boolean} true if fragment's type is text/*
    */
   get isText() {
-    return this.isContentText(this.contentType);
+    return this.isContentText(this.mimeType());
   }
 
   /**
