@@ -15,3 +15,7 @@ run with command `npm run dev`
 ## debug
 
 run with command `npm run debug`
+
+## test
+
+run with command `npm run test`
