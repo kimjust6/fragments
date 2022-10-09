@@ -1,6 +1,6 @@
 // Use crypto.randomUUID() to create unique IDs, see:
 // https://nodejs.org/api/crypto.html#cryptorandomuuidoptions
-// const { randomUUID } = require('crypto');
+const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
 
@@ -17,7 +17,19 @@ const {
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
     // initialize variables
-    this.id = id;
+    if (ownerId == null) {
+      throw 'ownerId cannot be null.';
+    } else if (type == null) {
+      throw 'type cannot be null.';
+    } else if (isNaN(size)) {
+      throw 'size is not a number.';
+    } else if (size < 0) {
+      throw 'size cannot be negative.';
+    } else if (!this.isSupportedType(type)) {
+      throw 'type is not supported.';
+    } else {
+      this.id = id ?? randomUUID.randomUUID();
+    }
     this.ownerId = ownerId;
     this.created = created;
     this.updated = updated;
