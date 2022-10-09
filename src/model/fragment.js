@@ -59,7 +59,14 @@ class Fragment {
    * @returns Promise<Fragment>
    */
   static async byId(_ownerId, _id) {
-    return await readFragmentData(_ownerId, _id);
+    const returnVal = await readFragment(_ownerId, _id);
+    if (!returnVal) {
+      return Promise.reject(() => {
+        throw 'Fragment id does not exist.';
+      });
+    } else {
+      return returnVal;
+    }
   }
 
   /**
@@ -77,6 +84,7 @@ class Fragment {
    * @returns Promise
    */
   async save() {
+    this.updated = new Date();
     return await writeFragment(this);
   }
 
@@ -85,7 +93,7 @@ class Fragment {
    * @returns Promise<Buffer>
    */
   async getData() {
-    return await readFragment(this.ownerId, this.id);
+    return await readFragmentData(this.ownerId, this.id);
   }
 
   /**
@@ -94,7 +102,15 @@ class Fragment {
    * @returns Promise
    */
   async setData(_data) {
-    return await writeFragmentData(this.ownerId, this.id, _data);
+    if (_data) {
+      this.updated = new Date();
+      this.size = _data.length;
+      return await writeFragmentData(this.ownerId, this.id, _data);
+    } else {
+      return Promise.reject(() => {
+        throw 'Please enter valid data.';
+      });
+    }
   }
 
   /**

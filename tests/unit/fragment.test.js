@@ -6,7 +6,7 @@ const wait = async (ms = 10) => new Promise((resolve) => setTimeout(resolve, ms)
 const validTypes = [
   `text/plain`,
   /*
-  Currently, only text/plain is supported. Others will be added later.
+   Currently, only text/plain is supported. Others will be added later.
 
   `text/markdown`,
   `text/html`,
@@ -179,7 +179,6 @@ describe('Fragment class', () => {
       const fragment = new Fragment({ ownerId: '1234', type: 'text/plain', size: 0 });
       await fragment.save();
       await fragment.setData(data);
-
       const fragment2 = await Fragment.byId('1234', fragment.id);
       expect(fragment2).toEqual(fragment);
       expect(await fragment2.getData()).toEqual(data);
@@ -189,7 +188,7 @@ describe('Fragment class', () => {
       const ownerId = '7777';
       const fragment = new Fragment({ ownerId, type: 'text/plain', size: 0 });
       const modified1 = fragment.updated;
-      await wait();
+      await wait(1000);
       await fragment.save();
       const fragment2 = await Fragment.byId(ownerId, fragment.id);
       expect(Date.parse(fragment2.updated)).toBeGreaterThan(Date.parse(modified1));
@@ -201,9 +200,9 @@ describe('Fragment class', () => {
       const fragment = new Fragment({ ownerId, type: 'text/plain', size: 0 });
       await fragment.save();
       const modified1 = fragment.updated;
-      await wait();
+      await wait(1000);
       await fragment.setData(data);
-      await wait();
+      await wait(1000);
       const fragment2 = await Fragment.byId(ownerId, fragment.id);
       expect(Date.parse(fragment2.updated)).toBeGreaterThan(Date.parse(modified1));
     });
