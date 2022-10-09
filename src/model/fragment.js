@@ -15,12 +15,14 @@ const {
 } = require('./data');
 
 class Fragment {
-  constructor({ id, ownerId, created, updated, type, size = 0 }) {
+  constructor({ id, ownerId, type, size = 0 }) {
     // initialize variables
     if (ownerId == null) {
       throw 'ownerId cannot be null.';
     } else if (type == null) {
       throw 'type cannot be null.';
+    } else if (size == null) {
+      size = 0;
     } else if (isNaN(size)) {
       throw 'size is not a number.';
     } else if (size < 0) {
@@ -28,11 +30,11 @@ class Fragment {
     } else if (!this.isSupportedType(type)) {
       throw 'type is not supported.';
     } else {
-      this.id = id ?? randomUUID.randomUUID();
+      this.id = id ? id : randomUUID.randomUUID();
     }
     this.ownerId = ownerId;
-    this.created = created;
-    this.updated = updated;
+    this.created = new Date();
+    this.updated = this.created;
     this.type = type;
     this.size = size;
   }
