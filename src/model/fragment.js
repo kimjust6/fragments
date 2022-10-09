@@ -104,7 +104,7 @@ class Fragment {
    * @returns {boolean} true if _contentType is text
    */
   static isContentText(_contentType) {
-    return /text\/*/.test(_contentType);
+    return /text*/.test(_contentType);
   }
 
   /**
