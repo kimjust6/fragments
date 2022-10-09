@@ -15,14 +15,14 @@ const {
 } = require('./data');
 
 class Fragment {
-  constructor({ _id, _ownerId, _created, _updated, _type, _size = 0 }) {
+  constructor({ id, ownerId, created, updated, type, size = 0 }) {
     // initialize variables
-    this.id = _id;
-    this.ownerId = _ownerId;
-    this.created = _created;
-    this.updated = _updated;
-    this.type = _type;
-    this.size = _size;
+    this.id = id;
+    this.ownerId = ownerId;
+    this.created = created;
+    this.updated = updated;
+    this.type = type;
+    this.size = size;
   }
 
   /**
