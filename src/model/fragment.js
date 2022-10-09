@@ -103,7 +103,7 @@ class Fragment {
    * @param {string} _contentType string that is the content type
    * @returns {boolean} true if _contentType is text
    */
-  isContentText(_contentType) {
+  static isContentText(_contentType) {
     return _contentType.test('text/*');
   }
 
@@ -111,7 +111,7 @@ class Fragment {
    * Returns the formats into which this fragment type can be converted
    * @returns {Array<string>} list of supported mime types
    */
-  get formats() {
+  static get formats() {
     return ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'text'];
   }
 
