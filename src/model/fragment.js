@@ -21,22 +21,25 @@ class Fragment {
       throw 'ownerId cannot be null.';
     } else if (type == null) {
       throw 'type cannot be null.';
-    } else if (size == null) {
-      size = 0;
-    } else if (isNaN(size)) {
+    } else if (typeof size == 'string' || isNaN(size)) {
       throw 'size is not a number.';
     } else if (size < 0) {
       throw 'size cannot be negative.';
     } else if (!Fragment.isSupportedType(type)) {
       throw 'type is not supported.';
     } else {
-      this.id = id ? id : randomUUID.randomUUID();
+      if (id === null || typeof id === 'undefined') {
+        this.id = randomUUID();
+      } else {
+        this.id = id;
+      }
+
+      this.ownerId = ownerId;
+      this.created = new Date();
+      this.updated = this.created;
+      this.type = type;
+      this.size = size;
     }
-    this.ownerId = ownerId;
-    this.created = new Date();
-    this.updated = this.created;
-    this.type = type;
-    this.size = size;
   }
 
   /**
@@ -109,7 +112,7 @@ class Fragment {
    * @returns {boolean} true if fragment's type is text/*
    */
   get isText() {
-    return this.isContentText(this.mimeType());
+    return Fragment.isContentText(this.type);
   }
 
   /**
@@ -126,11 +129,8 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    return this.getFormats;
-  }
-
-  static getFormats() {
-    return ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'text'];
+    // return this.getFormats;
+    return [this.mimeType];
   }
 
   /**
@@ -142,8 +142,14 @@ class Fragment {
     _value = _value.toLowerCase();
     return (
       this.isContentText(_value) ||
-      _value === 'application/json' ||
-      this.getFormats().includes(_value)
+      [
+        'application/json',
+        'image/png',
+        'image/jpg',
+        'image/jpeg',
+        'image/webp',
+        'image/gif',
+      ].includes(_value)
     );
   }
 }
