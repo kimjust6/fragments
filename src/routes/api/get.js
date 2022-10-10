@@ -36,12 +36,18 @@ module.exports = {
 
     // call the byUser method with the expansion
     let jwtJSON = parseJwt(req.headers['authorization']);
-    Fragment.byId(jwtJSON.jti, req?.params.id).then((result) => {
-      res.status(200).json(
-        response.createSuccessResponse({
-          fragments: result,
-        })
-      );
-    });
+    Fragment.byId(jwtJSON.jti, req?.params.id)
+      .then((result) => {
+        res.status(200).json(
+          response.createSuccessResponse({
+            fragments: result,
+          })
+        );
+      })
+      .catch((error) => {
+        logger.debug('fragmentId error: ');
+        logger.debug(error);
+        res.status(404).json(response.createErrorResponse(404, error.message));
+      });
   },
 };

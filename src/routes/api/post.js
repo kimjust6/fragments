@@ -15,7 +15,7 @@ module.exports = {
     let data;
     let type = req.headers['content-type'];
     if (!Fragment.isSupportedType(type)) {
-      throw 'Type is not supported.';
+      throw new Error('Type is not supported.');
     } else {
       let stringType = type.split(';')[1];
       if (stringType) {

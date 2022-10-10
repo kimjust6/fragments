@@ -19,15 +19,15 @@ class Fragment {
   constructor({ id, ownerId, type, size = 0 }) {
     // initialize variables
     if (ownerId == null) {
-      throw 'ownerId cannot be null.';
+      throw new Error('ownerId cannot be null.');
     } else if (type == null) {
-      throw 'type cannot be null.';
+      throw new Error('type cannot be null.');
     } else if (typeof size == 'string' || isNaN(size)) {
-      throw 'size is not a number.';
+      throw new Error('size is not a number.');
     } else if (size < 0) {
-      throw 'size cannot be negative.';
+      throw new Error('size cannot be negative.');
     } else if (!Fragment.isSupportedType(type)) {
-      throw 'type is not supported.';
+      throw new Error('type is not supported.');
     } else {
       if (id === null || typeof id === 'undefined') {
         this.id = randomUUID();
@@ -62,9 +62,7 @@ class Fragment {
   static async byId(_ownerId, _id) {
     const returnVal = await readFragment(_ownerId, _id);
     if (!returnVal) {
-      return Promise.reject(() => {
-        throw 'Fragment id does not exist.';
-      });
+      throw new Error('Fragment id does not exist.');
     } else {
       return returnVal;
     }
@@ -111,7 +109,7 @@ class Fragment {
       return await writeFragmentData(this.ownerId, this.id, _data);
     } else {
       return Promise.reject(() => {
-        throw 'Please enter valid data.';
+        throw new Error('Please enter valid data.');
       });
     }
   }
