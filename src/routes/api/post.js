@@ -22,10 +22,11 @@ module.exports = {
     let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
     logger.debug('jwt jti: ');
     logger.debug(jwtJSON.jti);
-    let frag = new Fragment({ ownerId: jwtJSON.jti, type: 'text/plain' });
-    frag.setData(data);
-    frag.save().then(() => {
-      res.status(201).json(response.createSuccessResponse({ fragment: frag }));
+    let frag = new Fragment({ ownerId: jwtJSON.jti, type: type });
+    frag.setData(data).then(() => {
+      frag.save().then(() => {
+        res.status(201).json(response.createSuccessResponse({ fragment: frag }));
+      });
     });
   },
 };

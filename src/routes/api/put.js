@@ -20,12 +20,19 @@ module.exports = {
     }
     // use jwt to get the origin_jti which will be used as the ownerId
     let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
-    logger.debug('jwt jti: ');
+    logger.debug('put jwt jti: ');
     logger.debug(jwtJSON.jti);
-    let frag = new Fragment({ id: req?.params?.id, ownerId: jwtJSON.jti, type: 'text/plain' });
-    frag.setData(data);
-    frag.save().then(() => {
-      res.status(200).json(response.createSuccessResponse({ fragment: frag }));
+    let frag = new Fragment({ id: req?.params?.id, ownerId: jwtJSON.jti, type: type });
+    frag.loadMetaData().then((result) => {
+      if (result) {
+        frag.setData(data).then(() => {
+          frag.save().then(() => {
+            res.status(200).json(response.createSuccessResponse({ fragment: frag }));
+          });
+        });
+      } else {
+        return res.status(404).json(response.createErrorResponse(404, 'not found'));
+      }
     });
   },
 };

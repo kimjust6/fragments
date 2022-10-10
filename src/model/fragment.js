@@ -87,6 +87,21 @@ class Fragment {
     return await writeFragment(this);
   }
 
+  async loadMetaData() {
+    let myData = await readFragment(this.ownerId, this.id);
+    console.log('mydata: ', myData);
+    if (typeof myData !== 'undefined') {
+      this.size = myData.size;
+      this.created = myData.created;
+      this.updated = myData.updated;
+      this.type = myData.type;
+      this.size = myData.size;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   /**
    * Gets the fragment's data from the database
    * @returns Promise<Buffer>
@@ -103,7 +118,7 @@ class Fragment {
   async setData(_data) {
     if (_data) {
       this.updated = new Date();
-      this.size = _data.length;
+      this.size = JSON.stringify(_data).length;
       logger.debug('saving data: ');
       logger.debug(_data);
       return await writeFragmentData(this.ownerId, this.id, _data);

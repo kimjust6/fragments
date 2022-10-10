@@ -34,7 +34,7 @@ router.get('/fragments/:id', require('./get').fragmentId);
 // Use a raw body parser for POST, which will give a `Buffer` Object or `{}` at `req.body`
 router.post('/fragments', rawBody(), require('./post').fragments);
 
-// Use a raw body parser for POST, which will give a `Buffer` Object or `{}` at `req.body`
-router.put('/fragments', rawBody(), require('./put').fragments);
+// Use a raw body parser for put, which will give a `Buffer` Object or `{}` at `req.body`
+router.put('/fragments/:id', rawBody(), require('./put').fragments);
 
 module.exports = router;
