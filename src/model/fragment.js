@@ -157,6 +157,9 @@ class Fragment {
    */
   static isSupportedType(_value) {
     _value = _value.toLowerCase();
+    _value = _value.split(';')[0];
+    logger.debug('value: ');
+    logger.debug(_value);
     return (
       this.isContentText(_value) ||
       [

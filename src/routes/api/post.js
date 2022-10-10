@@ -1,12 +1,10 @@
 // src/routes/api/get.js
 
+const sharedApiServices = require('./shared-api-services');
 const response = require('../../response');
 const { Fragment } = require('../../model/fragment');
 const logger = require('../../logger');
 
-function parseJwt(token) {
-  return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-}
 /**
  * Get a list of fragments for the current user
  */
@@ -15,17 +13,13 @@ module.exports = {
     let data;
     let type = req.headers['content-type'];
     if (!Fragment.isSupportedType(type)) {
-      throw new Error('Type is not supported.');
+      res.status(415).json(response.createErrorResponse(415, 'unsupported media type'));
     } else {
-      let stringType = type.split(';')[1];
-      if (stringType) {
-        data = req.body.toString(stringType);
-      } else {
-        data = req.body.toString('utf8');
-      }
+      let stringType = sharedApiServices.getEncoding(type);
+      data = req.body.toString(stringType);
     }
     // use jwt to get the origin_jti which will be used as the ownerId
-    let jwtJSON = parseJwt(req.headers['authorization']);
+    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
     logger.debug('jwt jti: ');
     logger.debug(jwtJSON.jti);
     let frag = new Fragment({ ownerId: jwtJSON.jti, type: 'text/plain' });

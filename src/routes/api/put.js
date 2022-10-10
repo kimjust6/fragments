@@ -3,11 +3,9 @@
 const response = require('../../response');
 const { Fragment } = require('../../model/fragment');
 const logger = require('../../logger');
-
+const sharedApiServices = require('./shared-api-services');
 // https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
-function parseJwt(token) {
-  return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-}
+
 /**
  * Get a list of fragments for the current user
  */
@@ -26,7 +24,7 @@ module.exports = {
       }
     }
     // use jwt to get the origin_jti which will be used as the ownerId
-    let jwtJSON = parseJwt(req.headers['authorization']);
+    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
     logger.debug('jwt jti: ');
     logger.debug(jwtJSON.jti);
     let frag = new Fragment({ ownerId: jwtJSON.jti, type: 'text/plain' });
