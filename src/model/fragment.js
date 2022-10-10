@@ -108,9 +108,7 @@ class Fragment {
       logger.debug(_data);
       return await writeFragmentData(this.ownerId, this.id, _data);
     } else {
-      return Promise.reject(() => {
-        throw new Error('Please enter valid data.');
-      });
+      throw new Error('Please enter valid data.');
     }
   }
 
