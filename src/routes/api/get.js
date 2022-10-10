@@ -33,7 +33,8 @@ module.exports = {
 
     // call the byUser method with the expansion
     let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
-    Fragment.byId(jwtJSON.jti, req?.params?.id)
+    new Fragment({ id: req?.params?.id, ownerId: jwtJSON.jti, type: 'text/plain' })
+      .getData()
       .then((result) => {
         res.status(200).json(
           response.createSuccessResponse({
