@@ -39,4 +39,6 @@ router.post('/fragments', rawBody(), require('./post').fragments);
 // Use a raw body parser for put, which will give a `Buffer` Object or `{}` at `req.body`
 router.put('/fragments/:id', rawBody(), require('./put').fragments);
 
+router.delete('/fragments/:id', require('./delete').fragmentsId);
+
 module.exports = router;

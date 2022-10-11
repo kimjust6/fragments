@@ -1,3 +1,28 @@
+// src/routes/api/get.js
+
+const sharedApiServices = require('./shared-api-services');
+const response = require('../../response');
+const { Fragment } = require('../../model/fragment');
+const logger = require('../../logger');
+
+/**
+ * Get a list of fragments for the current user
+ */
 module.exports = {
-  fragments: (req, res) => {},
+  fragmentsId: (req, res) => {
+    // use jwt to get the origin_jti which will be used as the ownerId
+    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
+    logger.debug('delete jwt jti: ');
+    logger.debug(jwtJSON.jti);
+
+    Fragment.delete(jwtJSON.jti, req?.params?.id)
+      .then(() => {
+        res.status(200).json(response.createSuccessResponse());
+      })
+      .catch((error) => {
+        logger.debug('fragmentId error: ');
+        logger.debug(error);
+        res.status(400).json(response.createErrorResponse(400, 'invalid request'));
+      });
+  },
 };
