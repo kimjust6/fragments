@@ -37,11 +37,15 @@ module.exports = {
     new Fragment({ id: req?.params?.id, ownerId: key, type: 'text/plain' })
       .getData()
       .then((result) => {
-        res.status(200).json(
-          response.createSuccessResponse({
-            fragments: result,
-          })
-        );
+        if (result.length) {
+          res.status(200).json(
+            response.createSuccessResponse({
+              fragments: result,
+            })
+          );
+        } else {
+          res.status(400).json(response.createErrorResponse(400, 'invalid request'));
+        }
       })
       .catch((error) => {
         logger.debug('fragmentId error: ');

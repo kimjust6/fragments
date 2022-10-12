@@ -11,11 +11,11 @@ const logger = require('../../logger');
 module.exports = {
   fragmentsId: (req, res) => {
     // use jwt to get the origin_jti which will be used as the ownerId
-    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
+    let key = sharedApiServices.parseJwt(req.headers['authorization']);
     logger.debug('delete jwt jti: ');
-    logger.debug(jwtJSON.jti);
+    logger.debug(key);
 
-    Fragment.delete(jwtJSON.jti, req?.params?.id)
+    Fragment.delete(key, req?.params?.id)
       .then(() => {
         res.status(200).json(response.createSuccessResponse());
       })
