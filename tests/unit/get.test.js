@@ -20,8 +20,19 @@ describe('GET /v1/fragments', () => {
     expect(Array.isArray(res.body.fragments)).toBe(true);
   });
 
+  // Using a valid username/password pair should give a success result with a .fragments array
+  test('authenticated users get a fragments array with expanded=1', async () => {
+    const res = await request(app)
+      .get('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .query({ expanded: '1' });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(Array.isArray(res.body.fragments)).toBe(true);
+  });
+
   // Make an invalid route call
-  test('authenticated users get a fragments array', async () => {
+  test('make an invalid route call', async () => {
     const res = await request(app).get('/420/nice').auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(404);
     expect(res.body.status).toBe('error');
