@@ -16,8 +16,9 @@ module.exports = {
     logger.debug(req?.query);
 
     // call the byUser method with the expansion
-    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
-    Fragment.byUser(jwtJSON.jti, req?.query.expanded === '1').then((result) => {
+    let key = sharedApiServices.parseJwt(req?.headers?.authorization);
+
+    Fragment.byUser(key, req?.query?.expanded === '1').then((result) => {
       res.status(200).json(
         response.createSuccessResponse({
           fragments: result,
@@ -32,8 +33,8 @@ module.exports = {
     logger.debug(req?.params);
 
     // call the byUser method with the expansion
-    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
-    new Fragment({ id: req?.params?.id, ownerId: jwtJSON.jti, type: 'text/plain' })
+    let key = sharedApiServices.parseJwt(req.headers['authorization']);
+    new Fragment({ id: req?.params?.id, ownerId: key, type: 'text/plain' })
       .getData()
       .then((result) => {
         res.status(200).json(
@@ -54,8 +55,8 @@ module.exports = {
     logger.debug(req?.params);
 
     // call the byUser method with the expansion
-    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
-    Fragment.byId(jwtJSON.jti, req?.params?.id)
+    let key = sharedApiServices.parseJwt(req.headers['authorization']);
+    Fragment.byId(key, req?.params?.id)
       .then((result) => {
         res.status(200).json(
           response.createSuccessResponse({

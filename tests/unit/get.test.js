@@ -26,5 +26,4 @@ describe('GET /v1/fragments', () => {
     expect(res.statusCode).toBe(404);
     expect(res.body.status).toBe('error');
   });
-
 });

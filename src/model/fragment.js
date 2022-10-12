@@ -118,7 +118,11 @@ class Fragment {
   async setData(_data) {
     if (_data) {
       this.updated = new Date();
-      this.size = JSON.stringify(_data).length;
+      // if (typeof _data == 'string') {
+      this.size = _data.length;
+      // } else {
+      //   this.size = JSON.stringify(_data).length;
+      // }
       logger.debug('saving data: ');
       logger.debug(_data);
       return await writeFragmentData(this.ownerId, this.id, _data);

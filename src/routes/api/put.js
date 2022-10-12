@@ -19,10 +19,10 @@ module.exports = {
       data = req.body.toString(stringType);
     }
     // use jwt to get the origin_jti which will be used as the ownerId
-    let jwtJSON = sharedApiServices.parseJwt(req.headers['authorization']);
+    let key = sharedApiServices.parseJwt(req.headers['authorization']);
     logger.debug('put jwt jti: ');
-    logger.debug(jwtJSON.jti);
-    let frag = new Fragment({ id: req?.params?.id, ownerId: jwtJSON.jti, type: type });
+    logger.debug(key);
+    let frag = new Fragment({ id: req?.params?.id, ownerId: key, type: type });
     frag.loadMetaData().then((result) => {
       if (result) {
         frag.setData(data).then(() => {

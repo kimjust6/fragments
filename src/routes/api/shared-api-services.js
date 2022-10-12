@@ -1,6 +1,10 @@
 module.exports = {
   parseJwt(token) {
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    if (token.split('Basic ')[1]) {
+      return token.split('Basic ')[1];
+    } else {
+      return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).jti;
+    }
   },
   /**
    *
