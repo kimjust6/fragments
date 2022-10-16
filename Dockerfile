@@ -5,7 +5,7 @@ LABEL maintainer="Justin Kim <jkim452@myseneca.ca>"
 LABEL description="Fragments node.js microservice"
 
 # We default to use port 8080 in our service
-ENV PORT=8800
+ENV PORT=8080
 
 # Reduce npm spam when installing within Docker
 # https://docs.npmjs.com/cli/v8/using-npm/config#loglevel
@@ -34,4 +34,4 @@ COPY ./tests/.htpasswd ./tests/.htpasswd
 CMD npm start
 
 # We run our service on port 8080
-EXPOSE 8800
+EXPOSE 8080
