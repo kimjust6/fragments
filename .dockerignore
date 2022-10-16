@@ -9,3 +9,5 @@ tests/
 .gitignore
 .prettier*
 jest*
+tests/
+!tests/.htpasswd

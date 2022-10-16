@@ -22,10 +22,13 @@ WORKDIR /app
 COPY package*.json /app/
 
 # Install node dependencies defined in package-lock.json
-RUN npm ci
+RUN npm install
 
 # Copy src to /app/src/
 COPY ./src ./src
+
+# Copy our HTPASSWD file
+COPY ./tests/.htpasswd ./tests/.htpasswd
 
 # Start the container by running our server
 CMD npm start
