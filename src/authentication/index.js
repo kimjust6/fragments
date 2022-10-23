@@ -1,4 +1,7 @@
 // src/authentication/index.js
+// # .htpasswd file to use in testing
+// process.env.HTPASSWD_FILE = 'tests/.htpasswd';
+// module.exports = require('./basic-auth');
 
 // Prefer Amazon Cognito
 if (process.env.AWS_COGNITO_POOL_ID && process.env.AWS_COGNITO_CLIENT_ID) {
