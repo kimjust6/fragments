@@ -44,7 +44,7 @@ USER node
 # copy the generated dependencies (node_modules/)
 COPY --chown=node:node --from=dependencies /app /app
 COPY --chown=node:node . .
-CMD npm start
+CMD ["npm", "start"]
 USER node
 # We run our service on port 8080
 EXPOSE 8080
