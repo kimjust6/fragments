@@ -1,5 +1,12 @@
-// src/routes/api/get.js
+// node.js, "classic" way:
+// enable everything
+var md = require('markdown-it')({
+  html: true,
+  linkify: true,
+  typographer: true,
+});
 
+// src/routes/api/get.js
 const logger = require('../../logger');
 const { Fragment } = require('../../model/fragment');
 const response = require('../../response');
@@ -32,12 +39,32 @@ module.exports = {
     logger.debug('params: ');
     logger.debug(req?.params);
 
+    //  check if there are extensions and we need to do conversions
+
+    let idSplit = req?.params?.id?.split('.');
+    logger.error('arrSplit');
+    logger.error(idSplit);
+
     // call the byUser method with the expansion
     let key = sharedApiServices.parseJwt(req.headers['authorization']);
-    new Fragment({ id: req?.params?.id, ownerId: key, type: 'text/plain' })
+    new Fragment({ id: idSplit[0], ownerId: key, type: 'text/plain' })
       .getData()
       .then((result) => {
         if (result.length) {
+          // check if we need to do conversion
+          if (idSplit.length > 1) {
+            if (idSplit[1] == 'md') {
+              // handle md
+              result = md.render(result);
+              logger.error('md');
+              logger.error(result);
+            } else if (idSplit[1] == 'html') {
+              // handle html
+              result = md.render(result);
+              logger.error('html');
+              logger.error(result);
+            }
+          }
           res.status(200).json(
             response.createSuccessResponse({
               fragments: result,
