@@ -41,8 +41,8 @@ module.exports = {
 
     //  check if there are extensions and we need to do conversions
     let idSplit = req?.params?.id?.split('.');
-    logger.error('arrSplit');
-    logger.error(idSplit);
+    logger.debug('arrSplit');
+    logger.debug(idSplit);
 
     // call the byUser method with the expansion
     let key = sharedApiServices.parseJwt(req.headers['authorization']);
@@ -54,13 +54,13 @@ module.exports = {
           if (idSplit.length > 1) {
             if (idSplit[1] == 'md') {
               // handle md
-              logger.error('md');
-              logger.error(result);
+              logger.debug('md');
+              logger.debug(result);
             } else if (idSplit[1] == 'html') {
               // handle html
               result = md.render(result);
-              logger.error('html');
-              logger.error(result);
+              logger.debug('html');
+              logger.debug(result);
             }
           }
           res.status(200).json(
