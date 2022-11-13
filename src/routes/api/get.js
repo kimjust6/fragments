@@ -40,7 +40,6 @@ module.exports = {
     logger.debug(req?.params);
 
     //  check if there are extensions and we need to do conversions
-
     let idSplit = req?.params?.id?.split('.');
     logger.error('arrSplit');
     logger.error(idSplit);
@@ -55,7 +54,6 @@ module.exports = {
           if (idSplit.length > 1) {
             if (idSplit[1] == 'md') {
               // handle md
-              result = md.render(result);
               logger.error('md');
               logger.error(result);
             } else if (idSplit[1] == 'html') {
