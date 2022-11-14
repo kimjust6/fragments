@@ -1,8 +1,3 @@
-// src/authentication/index.js
-// # .htpasswd file to use in testing
-// process.env.HTPASSWD_FILE = 'tests/.htpasswd';
-// module.exports = require('./basic-auth');
-
 // Prefer Amazon Cognito
 if (process.env.AWS_COGNITO_POOL_ID && process.env.AWS_COGNITO_CLIENT_ID) {
   module.exports = require('./cognito');
@@ -15,3 +10,8 @@ else if (process.env.HTPASSWD_FILE && process.NODE_ENV !== 'production') {
 else {
   throw new Error('missing env vars: no authorization configuration found');
 }
+
+// // src/authentication/index.js
+// // # .htpasswd file to use in testing
+// process.env.HTPASSWD_FILE = 'tests/.htpasswd';
+// module.exports = require('./basic-auth');
