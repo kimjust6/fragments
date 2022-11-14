@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../../src/app');
 
 // Using a valid username/password pair should give a success result with a .fragments array
-test('#add a new fragment', async () => {
+test('add a new fragment', async () => {
   const res = await request(app)
     .post('/v1/fragments')
     .set({ 'Content-Type': 'text/markdown; charset=utf-8' })

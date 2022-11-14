@@ -53,4 +53,63 @@ describe('GET /v1/fragments', () => {
     expect(res.statusCode).toBe(400);
     expect(res.body.status).toBe('error');
   });
+
+  // get fragments in markdown
+  test('get /v1/fragments/:id in markdown', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .set({ 'Content-Type': 'text/markdown; charset=utf-8' })
+      .send('# Markdown Test')
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    var fragmentID = res.body.fragment.id;
+
+    const res2 = await request(app)
+      .get('/v1/fragments/' + fragmentID)
+      .set({ 'Content-Type': 'text/markdown; charset=utf-8' })
+      .auth('user1@email.com', 'password1');
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body.status).toBe('ok');
+    expect(res2.body.fragments).toBe('# Markdown Test');
+  });
+
+  // get fragments in html
+  test('get /v1/fragments/:id in html', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .set({ 'Content-Type': 'text/markdown; charset=utf-8' })
+      .send('# Markdown Test2')
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    var fragmentID = res.body.fragment.id;
+
+    const res2 = await request(app)
+      .get('/v1/fragments/' + fragmentID + '.html')
+      .set({ 'Content-Type': 'text/markdown; charset=utf-8' })
+      .auth('user1@email.com', 'password1');
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body.status).toBe('ok');
+    expect(res2.body.fragments).toContain('<h1>Markdown Test2</h1>');
+  });
+
+  // get fragments in html
+  test('get /v1/fragments/:id expanded', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .set({ 'Content-Type': 'text/markdown; charset=utf-8' })
+      .send('# Markdown Test2')
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+
+    const res2 = await request(app)
+      .get('/v1/fragments/?expanded=1')
+      .set({ 'Content-Type': 'text/markdown; charset=utf-8' })
+      .auth('user1@email.com', 'password1');
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body.status).toBe('ok');
+    expect(res2.body.fragments[0].ownerId).toBe('dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==');
+  });
 });
