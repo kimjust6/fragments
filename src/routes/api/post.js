@@ -26,6 +26,7 @@ module.exports = {
     frag.setData(data).then(() => {
       frag.save().then(() => {
         var httpPrefix = typeof req.connection.encrypted == 'undefined' ? 'http://' : 'https://';
+        console.log('Location', httpPrefix + req.get('host') + '/v1/fragments/' + frag.id);
         res.setHeader('Location', httpPrefix + req.get('host') + '/v1/fragments/' + frag.id);
         res.status(201).json(response.createSuccessResponse({ fragment: frag }));
       });

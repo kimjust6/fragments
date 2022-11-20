@@ -63,11 +63,10 @@ module.exports = {
               logger.debug(result);
             }
           }
-          res.status(200).json(
-            response.createSuccessResponse({
-              fragments: result,
-            })
-          );
+          // check for content-types
+          console.log(req.headers);
+          res.setHeader('content-type', 'text/plain');
+          res.status(200).send(result);
         } else {
           res.status(400).json(response.createErrorResponse(400, 'invalid request'));
         }
