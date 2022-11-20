@@ -64,7 +64,6 @@ module.exports = {
             }
           }
           // check for content-types
-          console.log(req.headers);
           res.setHeader('content-type', 'text/plain');
           res.status(200).send(result);
         } else {

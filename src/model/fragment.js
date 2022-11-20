@@ -89,7 +89,6 @@ class Fragment {
 
   async loadMetaData() {
     let myData = await readFragment(this.ownerId, this.id);
-    console.log('mydata: ', myData);
     if (typeof myData !== 'undefined') {
       this.size = myData.size;
       this.created = myData.created;
