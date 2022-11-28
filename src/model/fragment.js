@@ -74,8 +74,14 @@ class Fragment {
    * @param {string} _id fragment's id
    * @returns Promise
    */
-  static delete(_ownerId, _id) {
-    return deleteFragment(_ownerId, _id);
+  static async delete(_ownerId, _id) {
+    logger.debug('delete: ', _ownerId, _id);
+    const returnVal = await deleteFragment(_ownerId, _id);
+    if (!returnVal) {
+      throw new Error('Could not delete fragment.');
+    } else {
+      return returnVal;
+    }
   }
 
   /**
