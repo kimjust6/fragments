@@ -43,14 +43,14 @@ describe('GET /v1/fragments', () => {
     const res = await request(app)
       .get('/v1/fragments/nice/info')
       .auth('user1@email.com', 'password1');
-    expect(res.statusCode).toBe(400);
+    expect(res.statusCode).toBe(404);
     expect(res.body.status).toBe('error');
   });
 
   // Make an invalid route call to fragmentID
   test('make an invalid route call', async () => {
     const res = await request(app).get('/v1/fragments/nice/').auth('user1@email.com', 'password1');
-    expect(res.statusCode).toBe(400);
+    expect(res.statusCode).toBe(404);
     expect(res.body.status).toBe('error');
   });
 

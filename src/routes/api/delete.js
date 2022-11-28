@@ -22,7 +22,7 @@ module.exports = {
       .catch((error) => {
         logger.debug('fragmentId error: ');
         logger.debug(error);
-        res.status(400).json(response.createErrorResponse(400, 'invalid request'));
+        res.status(404).json(response.createErrorResponse(404, 'invalid request'));
       });
   },
 };
