@@ -53,3 +53,8 @@ services:
       - SERVICES=s3
       # We're always working in us-east-1
       - DEFAULT_REGION=us-east-1
+      - AWS_S3_BUCKET_NAME=jkim452-fragments
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=ASIARIPIYRVQSPDHH2VE
+      - AWS_SECRET_ACCESS_KEY=UaiUEtAUcQ6JTriR+IhnBuXVNvmO603OraBmYrZ4
+      - AWS_SESSION_TOKEN=FwoGZXIvYXdzEK3//////////wEaDKFhYzyTDiG7peHsGCK8ARr9dzQTxVYa8JOZa3pIwc49MgUg+AB3185gJBZ7W2hnUi/UZDmz35/LToFOajXB9g72QrKKlqNVaplJKBX+6msKHb6D9lmyu2bJ4QEHHYYnq1adc7K3CxijPxVkx5qOe2w9mKz3CNrfJQkxXwKTi4zybQtamxQmZMvA4AgGa2RrYO/Tw8D4VX34tnWBJdO/jHjRMAylBi+tDV92sROcqGPmIoGvPM3Xm89fPpwjPdoowtlVyEsZ5mpWofImKLaLq5wGMi3tqpsmn6JsnZX5vNZOCcWwEaiAW1ruC/Jd+EdUmPEEWbvWO4SSgN7Jv58j+QM=
