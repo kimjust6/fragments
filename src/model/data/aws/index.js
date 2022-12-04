@@ -1,6 +1,6 @@
 const s3Client = require('./s3Client');
 const ddbDocClient = require('./ddbDocClient');
-const { PutCommand, GetCommand, QueryCommand } = require('@aws-sdk/lib-dynamodb');
+const { PutCommand, GetCommand, QueryCommand, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
 
 const { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
@@ -162,6 +162,36 @@ async function listFragments(ownerId, expand = false) {
 }
 
 async function deleteFragment(ownerId, id) {
+  return Promise.all([
+    // Delete metadata
+    deleteFragmentMeta(ownerId, id),
+    // Delete data
+    deleteFragmentData(ownerId, id),
+  ]);
+}
+
+async function deleteFragmentMeta(ownerId, id) {
+  const metaParams = {
+    TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
+    Key: { ownerId, id },
+  };
+
+  // Create a GET command to send to DynamoDB
+  const metaCommand = new DeleteCommand(metaParams);
+
+  try {
+    // Wait for the data to come back from AWS
+    const data = await ddbDocClient.send(metaCommand);
+    // We may or may not get back any data (e.g., no item found for the given key).
+    // If we get back an item (fragment), we'll return it.  Otherwise we'll return `undefined`.
+    return data?.Item;
+  } catch (err) {
+    logger.warn({ err, metaParams }, 'error reading fragment from DynamoDB');
+    throw err;
+  }
+}
+
+async function deleteFragmentData(ownerId, id) {
   // Create the delete API params from our details
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
