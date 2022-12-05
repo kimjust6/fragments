@@ -62,5 +62,5 @@ GET {{url}}
 user1@email.com:password1
 
 HTTP/1.1 404
-Content-Type: text/plain
+Content-Type: application/json; charset=utf-8
 
