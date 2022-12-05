@@ -128,4 +128,4 @@ jobs:
         # $ chmod +x ./scripts/local-aws-setup.sh
         run: ./scripts/local-aws-setup.sh
       - name: Run Hurl Tests
-        run: ls
+        run: npm run test:integration
