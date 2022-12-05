@@ -40,7 +40,7 @@ GET {{url}}
 user1@email.com:password1
 
 HTTP/1.1 200
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
 Content-Length: 9
 [Asserts]
 body == "Hello S3!"
@@ -62,5 +62,5 @@ GET {{url}}
 user1@email.com:password1
 
 HTTP/1.1 404
-Content-Type: application/json; charset=utf-8
+Content-Type: text/plain
 
