@@ -75,7 +75,7 @@ class Fragment {
    * @returns Promise
    */
   static async delete(_ownerId, _id) {
-    logger.debug('delete: ', _ownerId, _id);
+    logger.debug('1) delete: ', _ownerId, _id);
     const returnVal = await deleteFragment(_ownerId, _id);
     if (!returnVal) {
       throw new Error('Could not delete fragment.');
@@ -128,6 +128,7 @@ class Fragment {
       // } else {
       //   this.size = JSON.stringify(_data).length;
       // }
+      logger.debug();
       logger.debug('saving data: ');
       logger.debug(_data);
       return await writeFragmentData(this.ownerId, this.id, _data);

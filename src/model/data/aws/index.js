@@ -9,6 +9,8 @@ const logger = require('./../../../logger');
 
 // Writes a fragment to DynamoDB. Returns a Promise.
 function writeFragment(fragment) {
+  logger.debug('writing fragment:');
+  logger.debug(fragment);
   // Configure our PUT params, with the name of the table and item (attributes and keys)
   const params = {
     TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
@@ -53,6 +55,8 @@ async function readFragment(ownerId, id) {
 // Writes a fragment's data to an S3 Object in a Bucket
 // https://github.com/awsdocs/aws-sdk-for-javascript-v3/blob/main/doc_source/s3-example-creating-buckets.md#upload-an-existing-object-to-an-amazon-s3-bucket
 async function writeFragmentData(ownerId, id, data) {
+  logger.debug('AWS S3 Bucket: ');
+  logger.debug(process.env.AWS_S3_BUCKET_NAME);
   // Create the PUT API params from our details
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
@@ -162,6 +166,7 @@ async function listFragments(ownerId, expand = false) {
 }
 
 async function deleteFragment(ownerId, id) {
+  logger.debug('in deleteFragment');
   return Promise.all([
     // Delete metadata
     deleteFragmentMeta(ownerId, id),
@@ -171,6 +176,7 @@ async function deleteFragment(ownerId, id) {
 }
 
 async function deleteFragmentMeta(ownerId, id) {
+  logger.debug('in deleteFragmentMeta', ownerId, id);
   const metaParams = {
     TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
     Key: { ownerId, id },
@@ -192,6 +198,7 @@ async function deleteFragmentMeta(ownerId, id) {
 }
 
 async function deleteFragmentData(ownerId, id) {
+  logger.debug('in deleteFragmentData', ownerId, id);
   // Create the delete API params from our details
   const params = {
     Bucket: process.env.AWS_S3_BUCKET_NAME,
@@ -204,7 +211,8 @@ async function deleteFragmentData(ownerId, id) {
     // Get the object from the Amazon S3 bucket. It is returned as a ReadableStream.
     const data = await s3Client.send(command);
     // Convert the ReadableStream to a Buffer
-    return streamToBuffer(data.Body);
+    logger.debug('data: ', data);
+    return data;
   } catch (err) {
     const { Bucket, Key } = params;
     logger.error({ err, Bucket, Key }, 'Error deleting fragment data from S3');
