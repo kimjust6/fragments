@@ -1,6 +1,7 @@
 services:
   # Fragments microservice API server
   fragments:
+    restart: always
     # Use a proper init process (tini)
     init: true
     # Build the Docker Image using the Dockerfile
@@ -13,7 +14,7 @@ services:
       # Use Basic Auth (for running tests, CI)
       - HTPASSWD_FILE=tests/.htpasswd
       # Use the LOG_LEVEL set in the host environment, or default to info
-      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
       - AWS_REGION=us-east-1
       # Use the LocalStack endpoint vs. AWS for S3 AWS SDK clients.
       # NOTE: we use Docker's internal network to the localstack container
@@ -23,9 +24,12 @@ services:
       # This S3 bucket and DynamoDB table need to get created first, see
       # local-aws-setup.sh. We'll default to 'fragments' as the name, unless
       # something else is defined in the env.
-      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME:-fragments}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME:-jkim452-fragments}
       - AWS_DYNAMODB_TABLE_NAME=${AWS_DYNAMODB_TABLE_NAME:-fragments}
-      # Ports to publish
+      - 'AWS_ACCESS_KEY_ID=test'
+      - 'AWS_SECRET_ACCESS_KEY=test'
+      - 'AWS_SESSION_TOKEN=test'
+    # Ports to publish
     ports:
       - '8080:8080'
 
@@ -33,28 +37,16 @@ services:
   dynamodb-local:
     image: amazon/dynamodb-local
     ports:
-      # Default port is 8000
       - '8000:8000'
-    # Run the database in memory, see:
-    # https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.UsageNotes.html
     command: ['-jar', 'DynamoDBLocal.jar', '-inMemory']
 
-  # LocalStack for S3, see https://docs.localstack.cloud/get-started/#docker-compose
-  # Interact via awscli-local, see https://docs.localstack.cloud/integrations/aws-cli/#installation
   localstack:
-    # https://hub.docker.com/r/localstack/localstack
     image: localstack/localstack
     ports:
       - '4566:4566'
     environment:
-      # See https://docs.localstack.cloud/localstack/configuration/ and
-      # https://hub.docker.com/r/localstack/localstack for config details.
-      # We only want to run S3
       - SERVICES=s3
-      # We're always working in us-east-1
       - DEFAULT_REGION=us-east-1
-      - AWS_S3_BUCKET_NAME=jkim452-fragments
-      - AWS_REGION=us-east-1
-      - AWS_ACCESS_KEY_ID=ASIARIPIYRVQSPDHH2VE
-      - AWS_SECRET_ACCESS_KEY=UaiUEtAUcQ6JTriR+IhnBuXVNvmO603OraBmYrZ4
-      - AWS_SESSION_TOKEN=FwoGZXIvYXdzEK3//////////wEaDKFhYzyTDiG7peHsGCK8ARr9dzQTxVYa8JOZa3pIwc49MgUg+AB3185gJBZ7W2hnUi/UZDmz35/LToFOajXB9g72QrKKlqNVaplJKBX+6msKHb6D9lmyu2bJ4QEHHYYnq1adc7K3CxijPxVkx5qOe2w9mKz3CNrfJQkxXwKTi4zybQtamxQmZMvA4AgGa2RrYO/Tw8D4VX34tnWBJdO/jHjRMAylBi+tDV92sROcqGPmIoGvPM3Xm89fPpwjPdoowtlVyEsZ5mpWofImKLaLq5wGMi3tqpsmn6JsnZX5vNZOCcWwEaiAW1ruC/Jd+EdUmPEEWbvWO4SSgN7Jv58j+QM=
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_SESSION_TOKEN=test
