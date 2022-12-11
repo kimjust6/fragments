@@ -9,8 +9,10 @@ const logger = require('./../../../logger');
 
 // Writes a fragment to DynamoDB. Returns a Promise.
 function writeFragment(fragment) {
-  logger.debug('writing fragment:');
+  logger.debug('writing fragment DynamoDB:');
   logger.debug(fragment);
+  fragment.created = fragment.created.toString();
+  fragment.updated = fragment.updated.toString();
   // Configure our PUT params, with the name of the table and item (attributes and keys)
   const params = {
     TableName: process.env.AWS_DYNAMODB_TABLE_NAME,

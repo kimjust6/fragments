@@ -18,6 +18,8 @@ module.exports = {
       let stringType = sharedApiServices.getEncoding(type);
       data = req.body.toString(stringType);
     }
+    logger.debug('post: req');
+    logger.debug(req);
     // use jwt to get the origin_jti which will be used as the ownerId
     let key = sharedApiServices.parseJwt(req.headers['authorization']);
     logger.debug('jwt jti: ');

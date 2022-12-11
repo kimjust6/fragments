@@ -96,6 +96,8 @@ class Fragment {
   async loadMetaData() {
     let myData = await readFragment(this.ownerId, this.id);
     if (typeof myData !== 'undefined') {
+      logger.debug('myData inside loadMetaData: ');
+      logger.debug(myData);
       this.size = myData.size;
       this.created = myData.created;
       this.updated = myData.updated;
@@ -129,8 +131,9 @@ class Fragment {
       //   this.size = JSON.stringify(_data).length;
       // }
       logger.debug();
-      logger.debug('saving data: ');
-      logger.debug(_data);
+      logger.debug('saving data3: ');
+      logger.debug(JSON.stringify(_data));
+
       return await writeFragmentData(this.ownerId, this.id, _data);
     } else {
       throw new Error('Please enter valid data.');
