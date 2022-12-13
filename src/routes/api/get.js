@@ -46,25 +46,47 @@ module.exports = {
 
     // call the byUser method with the expansion
     let key = sharedApiServices.parseJwt(req.headers['authorization']);
-    new Fragment({ id: idSplit[0], ownerId: key, type: 'text/plain' })
+    var myFrag = new Fragment({ id: idSplit[0], ownerId: key, type: 'text/plain' });
+    myFrag
       .getData()
       .then((result) => {
         if (result.length) {
           // check if we need to do conversion
           if (idSplit.length > 1) {
-            if (idSplit[1] == 'md') {
-              // handle md
-              logger.debug('md');
-              logger.debug(result);
-            } else if (idSplit[1] == 'html') {
-              // handle html
-              result = md.render(result);
-              logger.debug('html');
-              logger.debug(result);
+            // check if it is an image or text
+            if (myFrag.isText) {
+              logger.debug('isText');
+              if (idSplit[1] == 'md') {
+                // handle md
+                logger.debug('md');
+                logger.debug(result);
+                res.setHeader('content-type', 'text/md');
+              } else if (idSplit[1] == 'html') {
+                // handle html
+                result = md.render(result);
+                logger.debug('html');
+                logger.debug(result);
+                res.setHeader('content-type', 'text/md');
+              } else {
+                res.setHeader('content-type', 'text/plain');
+              }
+            }
+            // probably image
+            else {
+              logger.debug('is image');
+              // if (idSplit[1] == 'image/jpg' || idSplit[1] == 'image/jpeg') {
+              //   res.setHeader('content-type', 'text/jpg');
+              // } else if (idSplit[1] == 'image/png') {
+              //   res.setHeader('content-type', 'text/png');
+              // } else if (idSplit[1] == 'image/gif') {
+              //   res.setHeader('content-type', 'text/gif');
+              // } else if (idSplit[1] == 'image/webp') {
+              //   res.setHeader('content-type', 'text/webp');
+              // }
             }
           }
           // check for content-types
-          res.setHeader('content-type', 'text/plain');
+
           res.status(200).send(result);
         } else {
           res.status(404).json(response.createErrorResponse(404, 'invalid request'));

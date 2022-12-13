@@ -9,23 +9,23 @@ export async function getMetadata() {
   }
 }
 
-export async function imageToJpeg() {
-  return imageConverter('jpg');
+export async function imageToJpeg(data) {
+  return imageConverter(data, 'jpg');
 }
 
-export async function imageToPng() {
-  return imageConverter('png');
+export async function imageToPng(data) {
+  return imageConverter(data, 'png');
 }
 
-export async function imageToWebp() {
-  return imageConverter('webp');
+export async function imageToWebp(data) {
+  return imageConverter(data, 'webp');
 }
 
-export async function imageToGif() {
-  return imageConverter('gif');
+export async function imageToGif(data) {
+  return imageConverter(data, 'gif');
 }
 
-async function imageConverter(extension) {
+async function imageConverter(data, extension) {
   var options = {};
   if (extension == 'jpeg' || extension == 'jpg') {
     options = { mozjpeg: true };
@@ -38,7 +38,7 @@ async function imageConverter(extension) {
   }
 
   try {
-    await sharp('./src/sharp/justin.jpg')
+    await sharp(data)
       .toFormat(extension, options)
       .toFile('./src/sharp/justin.' + extension);
   } catch (error) {
