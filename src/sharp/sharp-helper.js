@@ -2,7 +2,7 @@ const sharp = require('sharp');
 
 export async function getMetadata() {
   try {
-    const metadata = await sharp('./src/sharp/sammy.gif').metadata();
+    const metadata = await sharp('./src/sharp/justin.gif').metadata();
     console.log(metadata);
   } catch (error) {
     console.log(`An error occurred during processing: ${error}`);
@@ -38,9 +38,9 @@ async function imageConverter(extension) {
   }
 
   try {
-    await sharp('./src/sharp/sammy.jpg')
+    await sharp('./src/sharp/justin.jpg')
       .toFormat(extension, options)
-      .toFile('./src/sharp/sammy.' + extension);
+      .toFile('./src/sharp/justin.' + extension);
   } catch (error) {
     console.log(error);
   }
