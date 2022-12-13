@@ -23,6 +23,7 @@ jobs:
   # NOTE: this assumes our CI jobs have already passed previously
   # (i.e., that we don't tag a commit manually until we know a build is working)
   aws:
+    needs: [docker-hub]
     name: AWS
     runs-on: ubuntu-latest
     steps:
@@ -90,6 +91,7 @@ jobs:
           # for any values that should not be checked into git directly.  Here are
           # a few to get you started, but you should fill in the rest yourself.
           environment-variables: |
+            GIT_AUTH_TOKEN=${{ secrets.MYTOKEN }}
             LOG_LEVEL=info
             NODE_ENV=production
             API_URL=http://ec2co-ecsel-l0nmfroa6co6-2030385687.us-east-1.elb.amazonaws.com:8080/
