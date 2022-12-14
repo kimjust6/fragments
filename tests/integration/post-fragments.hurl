@@ -40,7 +40,6 @@ GET {{url}}
 user1@email.com:password1
 
 HTTP/1.1 200
-Content-Type: text/plain
 Content-Length: 19
 [Asserts]
 body == "This is a fragment!"

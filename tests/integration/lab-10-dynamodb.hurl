@@ -50,7 +50,6 @@ GET {{fragment1_url}}
 user1@email.com:password1
 
 HTTP/1.1 200
-Content-Type: text/plain
 Content-Length: 8
 [Asserts]
 body == "DynamoDB"
